@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello_message">こんにちは世界</string>
-    <string name="ButtonText">I\'m a button</string>
+    <string name="ButtonText">我是按钮</string>
+    <string name="login">登陆</string>
+    <string name="password">密码</string>
 </resources>
