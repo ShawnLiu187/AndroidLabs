@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="login name"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:id="@+id/loginName"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -33,4 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/flag"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/loginButton"/>
 </LinearLayout>

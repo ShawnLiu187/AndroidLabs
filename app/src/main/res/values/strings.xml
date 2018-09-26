@@ -4,4 +4,10 @@
     <string name="ButtonText">I\'m a button</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="dialog_message">Would you like to finish Activity</string>
+    <string name="dialog_title">Option</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="startChatMessage">Start Chat</string>
+    <string name="toastMessage">ListItemsActivity passed: My information to share</string>
 </resources>

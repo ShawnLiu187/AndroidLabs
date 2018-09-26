@@ -44,6 +44,7 @@ class ListItemsActivity : Activity() {
     private fun onCheckChanged() {
         Log.i(ACTIVITY_NAME, "testing Check")
         val builder = AlertDialog.Builder(this)
+
         builder.setMessage(R.string.dialog_message)
                 .setTitle(R.string.dialog_title)
                 .setPositiveButton(R.string.ok, { dialog, id ->
