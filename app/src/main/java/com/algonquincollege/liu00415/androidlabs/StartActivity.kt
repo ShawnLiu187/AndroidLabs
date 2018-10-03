@@ -22,6 +22,16 @@ class StartActivity : Activity() {
             val newActivity2 = Intent(this, ListItemsActivity::class.java)
             startActivityForResult(newActivity2, REQUEST_CODE)
         }
+
+        val chatButton = findViewById<Button>(R.id.chatButton)
+
+        chatButton.setOnClickListener{
+            Log.i(ACTIVITY_NAME, "User clicked Start Chat");
+
+            val newActivityChat = Intent(this, ChatWindow::class.java)
+            startActivity(newActivityChat)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

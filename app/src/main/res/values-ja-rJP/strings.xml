@@ -8,6 +8,7 @@
     <string name="dialog_title">选项</string>
     <string name="ok">是</string>
     <string name="cancel">否</string>
-    <string name="startChatMessage">开始对话</string>
+    <string name="startChat">开始对话</string>
     <string name="toastMessage">ListItemsActivity 成功： 分享信息</string>
+    <string name="sendButton">发送</string>
 </resources>

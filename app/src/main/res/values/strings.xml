@@ -8,6 +8,7 @@
     <string name="dialog_title">Option</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="startChatMessage">Start Chat</string>
+    <string name="startChat">Start Chat</string>
     <string name="toastMessage">ListItemsActivity passed: My information to share</string>
+    <string name="sendButton">Send</string>
 </resources>
