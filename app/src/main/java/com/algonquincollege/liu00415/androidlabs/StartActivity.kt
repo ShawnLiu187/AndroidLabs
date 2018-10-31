@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_start.*
 
 class StartActivity : Activity() {
     val ACTIVITY_NAME = "StartActivity"
@@ -30,6 +31,14 @@ class StartActivity : Activity() {
 
             val newActivityChat = Intent(this, ChatWindow::class.java)
             startActivity(newActivityChat)
+        }
+
+        val weatherButton = findViewById<Button>(R.id.weather)
+        weatherButton.setOnClickListener {
+            Log.i(ACTIVITY_NAME, "User clicked weather forecast")
+
+            val newActivityWeather = Intent(this, weatherForecast::class.java)
+            startActivity(newActivityWeather)
         }
 
     }
