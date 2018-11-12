@@ -3,6 +3,8 @@ package com.algonquincollege.liu00415.androidlabs
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
@@ -18,14 +20,31 @@ class ChatWindow : Activity() {
     var messages = ArrayList<String>()
     val ACTIVITY_NAME = "ChatWindow"
 
+    lateinit var dbHelper: ChatDatabaseHelper
+    lateinit var db: SQLiteDatabase
+    lateinit var results: Cursor
+
+    var messagePosition = 0
+
+    lateinit var myAdapter: MyAdapter
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_window)
 
-        val dbHelper = ChatDatabaseHelper()  //get a helper object
-        val db = dbHelper.writableDatabase
+        //Lab7
+        var fragmentLocation = findViewById<FrameLayout>(R.id.fragment_location)
 
-        val results = db.query(TABLE_NAME, arrayOf("_id", KEY_MESSAGES), null, null, null, null, null, null )
+
+        var iAmTablet = fragmentLocation != null //Very Important!!
+        //Lab7
+
+         dbHelper = ChatDatabaseHelper()  //get a helper object
+         db = dbHelper.writableDatabase
+
+        results = db.query(TABLE_NAME, arrayOf("_id", KEY_MESSAGES), null, null, null, null, null, null )
 
         Log.i(ACTIVITY_NAME, "Cursor's column count = " + results.getColumnCount())
 
@@ -52,11 +71,48 @@ class ChatWindow : Activity() {
         }
 
         var listView = findViewById<ListView>(R.id.listView)
+
+        //*****************Lab7***************
+        listView.setOnItemClickListener { parent, view, position, id ->
+
+            messagePosition = position
+
+            var string = messages.get(position)
+            var dataToPass = Bundle()
+            dataToPass.putString("Message", string)
+            dataToPass.putLong("ID", id)
+
+
+            if(iAmTablet)
+            {//tablet running
+                var newFragment = MessageFragment()
+                newFragment.arguments = dataToPass // bundle goes to fragment
+
+                newFragment.amITablet = true
+
+                var transition = getFragmentManager().beginTransaction() //how to load fragment
+                transition.replace(R.id.fragment_location, newFragment) //where to load, what to load
+
+                transition.commit() // make it run
+            }
+            else
+            {//phone running
+                var detailActivity = Intent(this, MessageDetails::class.java)
+                detailActivity.putExtras(dataToPass) // send data to next page
+                startActivityForResult(detailActivity, 35)
+            }
+        }
+
+
+
+        //*****************Lab7***************
+
+
         var sendButton = findViewById<Button>(R.id.sendButton)
         var editText = findViewById<EditText>(R.id.editText)
 
         var context = this
-        var myAdapter = MyAdapter(this)
+        myAdapter = MyAdapter(this)
 
         sendButton.setOnClickListener{
             var userInput = editText.getText().toString()
@@ -67,6 +123,8 @@ class ChatWindow : Activity() {
             newRow.put(KEY_MESSAGES, userInput)
 
             db.insert(TABLE_NAME, "", newRow)
+
+            results = db.query(TABLE_NAME, arrayOf("_id", KEY_MESSAGES), null, null, null, null, null, null )
 
             editText.setText("");
 
@@ -111,7 +169,10 @@ class ChatWindow : Activity() {
         }
 
         override fun getItemId(position: Int): Long{
-            return 0
+            results.moveToPosition(position)
+            var index = results.getColumnIndex("_id")
+
+             return results.getInt(index).toLong()
         }
     }
 
@@ -140,6 +201,22 @@ class ChatWindow : Activity() {
             //create new table
             onCreate(db)
         }
+    }
+
+    fun deleteMessage(id:Long)
+    {
+        db.delete(TABLE_NAME, "_id=$id", null)
+        results = db.query(TABLE_NAME, arrayOf("_id", KEY_MESSAGES), null, null, null, null, null, null )
+        messages.removeAt(messagePosition)
+        myAdapter.notifyDataSetChanged()//reload
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == 35 && resultCode == Activity.RESULT_OK)
+        {
+            deleteMessage(data?.getLongExtra("ID",0)!!)
+        }
+
     }
 
 }

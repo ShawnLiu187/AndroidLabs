@@ -11,4 +11,7 @@
     <string name="startChat">Start Chat</string>
     <string name="toastMessage">ListItemsActivity passed: My information to share</string>
     <string name="sendButton">Send</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

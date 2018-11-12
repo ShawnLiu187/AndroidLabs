@@ -72,7 +72,7 @@ class weatherForecast : Activity() {
 
             while (xpp.eventType != XmlPullParser.END_DOCUMENT)
             {
-                var name = xpp.name;
+//                var name = xpp.name;
                 when(xpp.eventType){
                     XmlPullParser.START_TAG -> {
                         if(xpp.name.equals("speed"))
@@ -125,7 +125,7 @@ class weatherForecast : Activity() {
         }
 
         override fun onProgressUpdate(vararg values: Integer?) {
-            weatherImage = findViewById<ImageView>(R.id.weatherImage)
+//            weatherImage = findViewById<ImageView>(R.id.weatherImage)
             tempCurrent.setText(current)
             tempMin.setText(min)
             tempMax.setText(max)
