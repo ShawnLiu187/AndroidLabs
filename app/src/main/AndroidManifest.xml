@@ -17,16 +17,19 @@
         android:theme="@style/AppTheme">
         <activity android:name=".StartActivity" />
         <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".ListItemsActivity" />
+        <activity android:name=".ChatWindow" />
+        <activity android:name=".weatherForecast" />
+        <activity android:name=".MessageDetails" />
+        <activity android:name=".TestToolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListItemsActivity" />
-        <activity android:name=".ChatWindow" />
-        <activity android:name=".weatherForecast" />
-        <activity android:name=".MessageDetails"></activity>
     </application>
 
 </manifest>
