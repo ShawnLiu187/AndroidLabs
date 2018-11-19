@@ -1,8 +1,17 @@
 package com.algonquincollege.liu00415.androidlabs
 
 import android.app.Activity
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
+import android.support.v4.app.NotificationCompat
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -14,7 +23,7 @@ import android.widget.EditText
 import android.widget.Toast
 
 
-class TestToolbar : AppCompatActivity() {
+class TestToolbar : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     var currentMessage = "You selected item 1"
 
@@ -26,8 +35,17 @@ class TestToolbar : AppCompatActivity() {
         setContentView(R.layout.activity_test_toolbar)
 
         var toolbar = findViewById<Toolbar>(R.id.lab8_toolbar)
-
         setSupportActionBar(toolbar)
+
+        //add navigation to tool bar
+        var drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        var toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close)
+
+        drawer.addDrawerListener(toggle)
+        toggle.syncState()
+
+        var navView = findViewById<NavigationView>(R.id.navigation_view)
+        navView.setNavigationItemSelectedListener(this)
 
         snackbarButton = findViewById<Button>(R.id.startSnackbar)
         snackbarButton.setOnClickListener{
@@ -41,6 +59,70 @@ class TestToolbar : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.chat_item -> {
+                //system notification
+                var mBuilder = NotificationCompat.Builder(this, "Channel_name")
+                        .setSmallIcon(R.drawable.city)
+                        .setAutoCancel(true)
+                        .setContentTitle("Let's chat")
+                        .setContentText("Chat with me");
+
+                var resultIntent = Intent(this, ChatWindow::class.java)
+
+                var resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                mBuilder.setContentIntent(resultPendingIntent)
+                var mNotificationId = 1
+                var mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                mNotifyMgr.notify(mNotificationId, mBuilder.build())
+            }
+            R.id.list_item -> {
+                //system notification
+                var mBuilder = NotificationCompat.Builder(this, "Channel_name")
+                        .setSmallIcon(R.drawable.gas)
+                        .setAutoCancel(true)
+                        .setContentTitle("List Items")
+                        .setContentText("List");
+
+                var resultIntent = Intent(this, ListItemsActivity::class.java)
+
+                var resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                mBuilder.setContentIntent(resultPendingIntent)
+                var mNotificationId = 2
+                var mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                mNotifyMgr.notify(mNotificationId, mBuilder.build())
+            }
+            R.id.contact_item -> {
+                //system notification
+                var mBuilder = NotificationCompat.Builder(this, "Channel_name")
+                        .setSmallIcon(R.drawable.ball)
+                        .setAutoCancel(true)
+                        .setContentTitle("How to contact")
+                        .setContentText("choose one");
+
+//                var resultIntent = Intent(this, ListItemsActivity::class.java)
+                var emailIntent = Intent(Intent.ACTION_SENDTO)
+                var resultPendingIntent = PendingIntent.getActivity(this, 0, emailIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                mBuilder.addAction(R.drawable.ball, "Send email", resultPendingIntent)
+
+                var smsIntent = Intent(Intent.ACTION_SEND)
+                var resultSMSIntent = PendingIntent.getActivity(this, 0, smsIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                mBuilder.addAction(R.drawable.ball, "Send email", resultSMSIntent)
+
+                //mBuilder.setContentIntent(resultPendingIntent)
+                var mNotificationId = 3
+                var mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                mNotifyMgr.notify(mNotificationId, mBuilder.build())
+            }
+        }
+
+        var drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        drawer.closeDrawer(GravityCompat.START)
         return true
     }
 
